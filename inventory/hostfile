@@ -1,0 +1,3 @@
+[nginxCluster]
+172.16.40.102 ansible_user=mahi
+

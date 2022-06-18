@@ -1,0 +1,6 @@
+---
+- name: nginxCluster
+  host: nginxCluster
+  become: true
+  roles:
+     nginx

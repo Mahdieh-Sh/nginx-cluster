@@ -1,0 +1,28 @@
+---
+- name: apt update
+  apt:
+   update_cache: yes
+
+- name: get nginx package signing key
+  get_url: 
+    url: http://nginx.org/keys/nginx_signing.key
+    dest: /var/keys/nginx_signing.key
+  register: result
+
+- name: add nginx apt-key
+  command: apt-key add '/var/keys/nginx_signing.key'
+  when: result.changed
+
+- name: install nginx
+  get_url:
+   url: https://nginx.org/packages/mainline/ubuntu/ focal nginx
+   state: present
+   
+- name: show version nginx
+  shell: 
+   cmd: nginx -v
+  register: nginx
+
+- name: debug nginx
+  debug:
+   msg: "{{ nginx.stdout }}"
