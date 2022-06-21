@@ -1,8 +1,4 @@
 ---
-- name: Update repositories cache and 
-  apt:
-    update_cache: yes
-
 - name: Add an Apt signing key, uses whichever key is at the URL
   apt_key:
     url: https://nginx.org/keys/nginx_signing.key
@@ -10,13 +6,15 @@
 
 - name: Add repository for nginx
   apt_repository:
-    repo: deb http://nginx.org/packages/ubuntu/ lucid nginx
+    repo: deb http://nginx.org/packages/ubuntu/ focal nginx
     state: present
+    filename: nginx
 
-- name: install nginx 
+- name: update repositories cache && install nginx 
   apt:
     name: nginx
     state: present
+    update_cache: yes
 
 - name: Enable nginx
   systemd:
@@ -51,3 +49,15 @@
 - name: debug nginx
   debug:
    msg: "{{ nginx.stdout }}"
+
+- name: add vrrp protocol 
+  ufw:
+    rule: allow
+    port: vrrp
+    proto: tcp
+
+- name: install keepalived
+  apt:
+    name: keepalived
+    state: present
+

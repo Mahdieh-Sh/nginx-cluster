@@ -1,3 +1,7 @@
 [nginxCluster]
-172.16.40.102 ansible_user=mahi
+nginx1 ansible_host=172.16.40.130     
+nginx2 ansible_host=172.16.40.131      
+nginx3 ansible_host=172.16.40.132
 
+[nginxCluster:vars]
+ansible_user=mahdieh
