@@ -19,7 +19,7 @@ vrrp_instance VI_01 {
 
   # The virtual ip address shared between the two NGINX Web Server which will float
   virtual_ipaddress {
-    192.168.1.150/24
+    172.16.40.150/24
   }
   track_script {
     check_nginx

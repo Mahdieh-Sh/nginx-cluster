@@ -1,6 +1,6 @@
 ---
-- name: nginxCluster
-  host: nginxCluster
+- name: keepalive
+  hosts: nginxCluster
   become: true
   roles:
-     nginx
+    - nginx

@@ -16,6 +16,13 @@
     state: present
     update_cache: yes
 
+- name: copy config file nginx
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/conf.d/
+    mode: '0644'
+  notify: Restart nginx
+
 - name: Enable nginx
   systemd:
     name: nginx
@@ -48,16 +55,28 @@
 
 - name: debug nginx
   debug:
-   msg: "{{ nginx.stdout }}"
+   msg: "{{ nginx }}"
 
-- name: add vrrp protocol 
+- name: Allow VRRP multicast address
   ufw:
     rule: allow
-    port: vrrp
-    proto: tcp
+    src: 172.16.40.0/24
+    dest: 224.0.0.18
 
 - name: install keepalived
   apt:
     name: keepalived
     state: present
 
+- name: copy keepalived config
+  template:
+    src: config.j2
+    dest: /etc/keepalived/keepalived.conf
+    mode: '0644'
+  notify: Restart keepalived
+
+- name: enable keepalived 
+  systemd:
+    name: keepalived
+    state: started
+    enabled: yes
